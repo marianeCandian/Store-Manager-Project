@@ -15,7 +15,9 @@ const insert = async (product) => {
   const newProductId = await productsModel.insert(product);
   const getNewProduct = await productsModel.findById(newProductId);
 
-  if (getNewProduct.length === 0) return { type: 'PRODUCT_NOT_INSERT', message: 'Product not insert' };
+  if (getNewProduct.length === 0) {
+    return { type: 'PRODUCT_NOT_INSERT', message: 'Product not insert' };
+  }
   return { type: null, message: getNewProduct };
 };
 
