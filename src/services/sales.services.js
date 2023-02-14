@@ -1,12 +1,12 @@
 const salesModel = require('../models/sales.models');
 
-const insertSales = async ({ id, itemSold }) => {
-  const date = Date.now();
-  const getNewSale = await Promise.all(itemSold
+const insertSales = async (sales) => {
+  const id = salesModel.getSalesId();
+  const getNewSale = await Promise.all(sales
     .map(
       async (sale) => salesModel
-        .insertSales({ date, id, sale }),
-));
+        .insertSales({ id, sale }),
+  ));
 
   return { type: null, message: getNewSale };
 };
