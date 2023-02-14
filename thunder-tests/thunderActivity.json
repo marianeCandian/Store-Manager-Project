@@ -18,13 +18,18 @@
     "colId": "history",
     "containerId": "",
     "name": "https:localhost:3000/products",
-    "url": "https:localhost:3000/products",
-    "method": "GET",
+    "url": "http://localhost:3000/products/1",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2023-02-13T18:39:08.975Z",
-    "modified": "2023-02-13T18:39:08.975Z",
+    "modified": "2023-02-14T22:28:31.988Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Machado do Thor Stormbreaker\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {

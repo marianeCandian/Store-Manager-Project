@@ -21,8 +21,18 @@ const insert = async (product) => {
   return { type: null, message: getNewProduct };
 };
 
+const updateById = async (id, name) => {
+  const hasProduct = await productsModel.findById(id);
+
+  if (!hasProduct) return { type: 404, message: 'Product not found' };
+
+  await productsModel.updateById(id, name);
+  return { type: null, message: hasProduct };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  updateById,
 };
