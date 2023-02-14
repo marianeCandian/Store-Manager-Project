@@ -30,9 +30,19 @@ const updateById = async (id, name) => {
   return { type: null, message: hasProduct };
 };
 
+const delleteById = async (id) => {
+  const hasProduct = await productsModel.findById(id);
+
+  if (!hasProduct) return { type: 404, message: 'Product not found' };
+
+  await productsModel.delleteProduct(id);
+  return { type: null, message: '' };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   updateById,
+  delleteById,
 };
