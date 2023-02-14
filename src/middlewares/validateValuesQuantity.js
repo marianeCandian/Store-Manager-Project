@@ -1,4 +1,4 @@
-const validateProductsValues = async (req, res, next) => {
+const validateValuesQuantity = async (req, res, next) => {
   const sales = req.body;
   sales.forEach((element) => {
     if (element.quantity.length <= 0) {
@@ -8,4 +8,4 @@ const validateProductsValues = async (req, res, next) => {
   return next();
 };
 
-module.exports = validateProductsValues;
+module.exports = validateValuesQuantity;
