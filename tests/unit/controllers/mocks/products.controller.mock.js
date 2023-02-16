@@ -4,6 +4,11 @@ const expected = [
   {id:3,name:'Escudo do Capitão América'},
 ];
 
+const newProduct = {
+  "name": "Martelo do Batman"
+};
+
 module.exports = {
   expected,
+  newProduct,
 };

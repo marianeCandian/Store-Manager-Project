@@ -8,9 +8,9 @@ chai.use(sinonChai);
 const productsServices = require('../../../src/services/products.services');
 const productsCotroller = require('../../../src/controllers/products.controller');
 
-const { expedted } = require('./mocks/products.controller.mock');
+const { expedted, newProduct } = require('./mocks/products.controller.mock');
 
-describe('Teste de unidade do productsontroller', function () {
+describe('Teste de unidade do productsController', function () {
   describe('Listando os produtos', function () {
     it('Deve retornar o status 200 e a lista', async function () {
       // arrange
@@ -51,7 +51,72 @@ describe('Teste de unidade do productsontroller', function () {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(expedted);
     });
+  });
+  describe('Verifica rota de atualizar um produto', function () {
+    // it('Faz a atualização de um produto pelo id', async function () {
+    //   const res = {};
+    //   const req = {
+    //     params: { id: 1 },
+    //   };
+
+    //   res.status = sinon.stub().returns(res);
+    //   res.json = sinon.stub().returns();
+
+    //   sinon.stub(productsServices, 'updateById').resolves({ type: null, message: 2 });
+
+    //   await productsCotroller.updateById(req, res);
+
+    //   expect(res.status).to.have.been.calledWith(200);
+    //   expect(res.json).to.have.been.calledWith(1);
+    // });
+
+    // it('Testa fazer a atualização de uma pessoa pelo id sem sucesso', async function () {
+    // const req = { params: { id: 999 } };
+    // const res = {};
+
+    // res.status = sinon.stub().returns(res);
+    // res.json = sinon.stub().returns();
+
+    // sinon.stub(productsServices, 'updateById').resolves({ type: 404, message: 'Product not found' });
+
+    // await productsCotroller.updateById(req, res);
+
+    // expect(res.status).to.have.been.calledWith(404);
+    // expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    // });
+  });
+
+    describe('Testa a camada controller para a função "deleteProduct"', function () {
+    it('Faz a remoção de uma pessoa através do id', async function () {
+      const req = { params: { id: 1 } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productsServices, 'delleteById').resolves({ type: null, message: 'Operação realizada com sucesso!' });
+
+      await productsCotroller.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.json).to.have.been.calledWith({ message: 'Operação realizada com sucesso!' });
     });
+
+    it('Recebe erro com o id a ser removido não existe', async function () {
+      const req = { params: { id: 999 } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon.stub(productsServices, 'delleteById').resolves({ type: 404, message: 'Product not found' });
+
+      await productsCotroller.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+  });
   afterEach(function () {
     sinon.restore();
   });

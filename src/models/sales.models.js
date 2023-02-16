@@ -9,24 +9,31 @@ const getSalesId = async () => {
   return id;
 };
 
-const insertSales = async ({ id, sale }) => {
-  sale.forEach((element) => connection.execute(
-    'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-    [id, element.productId, element.quantity],
-  ));
+const findAll = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales',
+  );
+  return result;
+};
 
-  return { id, itemSold: sale };
+const insertSales = async (id, productId, quantity) => {
+  await connection.execute(
+    'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUE (?, ?, ?)',
+    [id, productId, quantity],
+  );
+
+  return { id, itemSold: { productId, quantity } };
 };
 
 const getAllSales = async () => {
    const [allSales] = await connection.execute(
-    `SELECT StoreManager.sales_products.sale_id,
-      StoreManager.sales.date,
-      StoreManager.sales_products.product_id,
-      StoreManager.sales_products.quantity
-    FROM StoreManager.sales_products
-    JOIN StoreManager.sales
-    ON StoreManager.sales_products.sale_id = sales.id
+    `SELECT SP.sale_id,
+      S.date,
+      SP.product_id,
+      SP.quantity 
+    FROM StoreManager.sales_products AS SP
+    JOIN StoreManager.sales AS S
+    ON SP.sale_id = S.id
     ORDER BY
       sale_id ASC,
       product_id ASC`,
@@ -50,6 +57,7 @@ const getSaleById = async (id) => {
 };
 
 module.exports = {
+  findAll,
   insertSales,
   getSalesId,
   getAllSales,
