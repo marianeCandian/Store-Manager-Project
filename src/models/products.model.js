@@ -13,7 +13,7 @@ const findById = async (id) => {
     'SELECT * FROM StoreManager.products WHERE id = (?)',
     [id],
   );
-
+  
   return camelize(result);
 };
 

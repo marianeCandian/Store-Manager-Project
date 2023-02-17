@@ -8,7 +8,7 @@ chai.use(sinonChai);
 const productsServices = require('../../../src/services/products.services');
 const productsCotroller = require('../../../src/controllers/products.controller');
 
-const { expedted, newProduct } = require('./mocks/products.controller.mock');
+const { expedted, newName } = require('./mocks/products.controller.mock');
 
 describe('Teste de unidade do productsController', function () {
   describe('Listando os produtos', function () {
@@ -51,33 +51,49 @@ describe('Teste de unidade do productsController', function () {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(expedted);
     });
+
+    it('Retorna um erro caso o id do produto não exista', async function () {
+      const res = {};
+      const req = {
+        params: { id: 10 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns(res);
+      sinon.stub(productsServices, 'findById').resolves({ type: 404, message: 'Product not found' });
+
+      await productsCotroller.getProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
   });
   describe('Verifica rota de atualizar um produto', function () {
     // it('Faz a atualização de um produto pelo id', async function () {
     //   const res = {};
-    //   const req = {
-    //     params: { id: 1 },
-    //   };
+    //   const req = { params: { id: 1 }, body: newName };
 
     //   res.status = sinon.stub().returns(res);
     //   res.json = sinon.stub().returns();
 
-    //   sinon.stub(productsServices, 'updateById').resolves({ type: null, message: 2 });
+    //   sinon.stub(productsServices, 'updateById').resolves({ id: 1, name: 'Machado do Thor Stormbreaker' });
+    //   sinon.stub(productsServices, 'findById').resolves([{ id: 1, name: 'Martelo de Thor' }]);
 
     //   await productsCotroller.updateById(req, res);
 
     //   expect(res.status).to.have.been.calledWith(200);
-    //   expect(res.json).to.have.been.calledWith(1);
+    //   expect(res.json).to.have.been.calledWith({ id: 1, name: 'Machado do Thor Stormbreaker' });
     // });
 
     // it('Testa fazer a atualização de uma pessoa pelo id sem sucesso', async function () {
-    // const req = { params: { id: 999 } };
-    // const res = {};
+    //   const res = {};
+    //   const req = { params: { id: 999 }, body: newName };
 
     // res.status = sinon.stub().returns(res);
     // res.json = sinon.stub().returns();
 
-    // sinon.stub(productsServices, 'updateById').resolves({ type: 404, message: 'Product not found' });
+    //   sinon.stub(productsServices, 'updateById').resolves({ id: 1, name: 'Martelo de Thor' });
+    //   sinon.stub(productsServices, 'findById').resolves({ type: 404, message: 'Product not found' });
 
     // await productsCotroller.updateById(req, res);
 
