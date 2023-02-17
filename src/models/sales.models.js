@@ -2,11 +2,11 @@ const camelize = require('camelize');
 const connection = require('./connection');
 
 const getSalesId = async () => {
-  const [{ id }] = await connection.execute(
+  const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales (date) VALUES (NOW())',
   );
-
-  return id;
+  
+  return insertId;
 };
 
 const findAll = async () => {
@@ -17,12 +17,12 @@ const findAll = async () => {
 };
 
 const insertSales = async (id, productId, quantity) => {
-  await connection.execute(
+  const [result] = await connection.execute(
     'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUE (?, ?, ?)',
     [id, productId, quantity],
   );
 
-  return { id, itemSold: { productId, quantity } };
+  return result;
 };
 
 const getAllSales = async () => {

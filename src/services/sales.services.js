@@ -1,5 +1,5 @@
 const salesModel = require('../models/sales.models');
-const productsModel = require('../models/products.model');
+// const productsModel = require('../models/products.model');
 
 const findAll = async () => {
   const sales = await salesModel.findAll();
@@ -16,20 +16,12 @@ const findById = async (id) => {
 };
 
 const insertSales = async (sales) => {
-  const newSales = await Promise.all(sales.map(async (e) => productsModel
-    .findById(e.productId)));
-    
-  const verifySale = newSales.every((e) => e);
-  
-  if (!verifySale) return { type: 404, message: 'Product not found' };
-  
-  const id = await salesModel.getSaleById();
-  console.log(sales);
+  const id = await salesModel.getSalesId();
 
-  const getNewSale = await Promise.all(sales
-    .map(async (e) => salesModel.insertSales(id, e.productId, e.quantity)));
+  await Promise.all(sales
+    .map((sale) => salesModel.insertSales(id, sale.productId, sale.quantity)));
 
-  return { type: null, message: getNewSale };
+  return { id, itemsSold: sales };
 };
 
 const getAllSales = async () => {

@@ -2,9 +2,9 @@ const salesService = require('../services/sales.services');
 
 const createSale = async (req, res) => {
   const sales = req.body;
-  const { type, message } = await salesService.insertSales(sales);
-  if (type) return res.status(type).json({ message });
-  return res.status(201).json(message);
+  const newSale = await salesService.insertSales(sales);
+  if (newSale.message) return res.status(404).json(newSale);
+  return res.status(201).json(newSale);
 };
 
 const getAllSales = async (_req, res) => {
